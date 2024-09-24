@@ -60,6 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonact"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@drawable/perfil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
