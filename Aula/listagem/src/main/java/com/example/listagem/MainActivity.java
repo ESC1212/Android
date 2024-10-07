@@ -20,16 +20,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listview = findViewById(R.id.listview);
-
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, android.R.id.text1,nomes);
-        listview.setAdapter(arrayAdapter);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(getApplicationContext(), Integer.toString(i)+" "+nomes[i],Toast.LENGTH_LONG).show();
-            }
-        });
+//        daoplaneta = new DAOPlaneta();
+//        PlanetaAdapter planetaAdapter = new PlanetaAdapter(this,R.layout.Item_);
 
     }
 }
