@@ -3,53 +3,72 @@ package com.example.db;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     SQLiteDatabase DB;
-    EditText txtNome,txtEmail,txtDataN;
-    Button cadastrar;
-    ListView listV;
+    EditText Nome, Data, Email;
+    Button Cadastrar;
+    ListView list;
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SQLiteDatabase DB = openOrCreateDatabase("banco", getBaseContext().MODE_PRIVATE,null);
-        DB.execSQL("CREATE TABLE IF NOT EXISTS pessoas (id INTEGER PRIMARY KEY AUTOINCREMENT,nome varchar, email varchar,datan DATE)");
-        txtNome = findViewById(R.id.txtNome);
-        txtEmail = findViewById(R.id.txtEmail);
-        txtDataN = findViewById(R.id.txtDataN);
-        cadastrar = findViewById(R.id.btnCadastrar);
-        listV = findViewById(R.id.listV);
 
-        cadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
+        Nome = findViewById(R.id.txtNome);
+        Email = findViewById(R.id.txtEmail);
+        Data = findViewById(R.id.txtDataN);
+        Cadastrar =findViewById(R.id.btnCadastrar);
+        list = findViewById(R.id.listV);
+
+        DB = openOrCreateDatabase("banco",MODE_PRIVATE, null);
+        DB.execSQL("CREATE TABLE if not exists pessoas (id  INTEGER PRIMARY KEY autoincrement,nome varchar, email varchar, dtnsc date)");
+
+        Cadastrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                String nome = txtNome.getText().toString();
-                String email = txtEmail.getText().toString();
-                ContentValues cv = new ContentValues();
-                cv.put("nome", nome);
-                cv.put("email", email);
+                String nome = Nome.getText().toString();
+                String email = Email.getText().toString();
+                String data = Data.getText().toString();
 
-                long status = DB.insert("pessoas", null,cv);
-                if(status > 0){
-                    Toast.makeText(getApplicationContext(),"usuario inserido",Toast.LENGTH_LONG).show();
+                ContentValues cv = new ContentValues();
+                cv.put("nome",nome);
+                cv.put("email",email);
+
+                long status = DB.insert("pessoas",null,cv);
+
+                if(status>0){
+                    Toast.makeText(MainActivity.this, "certo", Toast.LENGTH_SHORT).show();
                 } else{
-                    Toast.makeText(getApplicationContext(),"Erro",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this, "Erro", Toast.LENGTH_SHORT).show();
                 }
+                LoadData();
             }
         });
+        LoadData();
+    }
 
+    public void LoadData(){
+        Cursor cursor = DB.rawQuery("SELECT * FROM pessoas",null);
+        cursor.moveToFirst();
+        ArrayList<String> nomes = new ArrayList<>();
+        while(!cursor.isAfterLast())
+        {
+            nomes.add(cursor.getString(1));
+            cursor.moveToNext();
+        }
+        ArrayAdapter<String> adap = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1,nomes);
+        list.setAdapter(adap);
     }
-    public void loadData(){
-        DB.rawQuery("SELECT * FROM pessoas;",);
-    }
+
 }
