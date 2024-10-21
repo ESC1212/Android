@@ -11,6 +11,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SQLiteDatabase DB = openOrCreateDatabase("banco", getBaseContext().MODE_PRIVATE,null);
-        DB.execSQL("CREATE TABLE pessoas (id INT PRIMARY KEY AUTOINCREMENT,nome varchar, email varchar)");
+        DB.execSQL("CREATE TABLE pessoas (id INT PRIMARY KEY AUTOINCREMENT,nome varchar, email varchar,datan DATE)");
     }
 }

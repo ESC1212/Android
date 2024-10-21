@@ -7,12 +7,95 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="10px"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/txtNome"
+        app:layout_constraintEnd_toStartOf="@+id/txtNome"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtNome" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/txtEmail"
+        app:layout_constraintEnd_toStartOf="@+id/txtEmail"
+        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtEmail" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10px"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDataN"
+        app:layout_constraintEnd_toStartOf="@+id/txtDataN"
+        app:layout_constraintHorizontal_bias="0.392"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtDataN"
+        app:layout_constraintVertical_bias="0.476" />
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="296dp"
+        android:layout_height="41dp"
+        android:layout_margin="10px"
+        android:ems="10"
+        android:hint="email@email.co"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/txtDataN"
+        app:layout_constraintTop_toBottomOf="@+id/txtNome"
+        tools:layout_editor_absoluteX="99dp" />
+
+    <EditText
+        android:id="@+id/txtDataN"
+        android:layout_width="294dp"
+        android:layout_height="40dp"
+        android:layout_margin="10px"
+        android:ems="10"
+        android:hint="DD/MM/AAAA"
+        android:inputType="date"
+        app:layout_constraintTop_toBottomOf="@+id/txtEmail"
+        tools:layout_editor_absoluteX="99dp" />
+
+    <EditText
+        android:id="@+id/txtNome"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:layout_margin="10px"
+        android:ems="10"
+        android:hint="Nome"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:layout_editor_absoluteX="99dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar Usuário"
+        android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDataN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
