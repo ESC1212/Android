@@ -21,5 +21,6 @@ public class MainActivity extends AppCompatActivity {
         txtNome = findViewById(R.id.txtNome);
         txtEmail = findViewById(R.id.txtEmail);
         txtDataN = findViewById(R.id.txtDataN);
+        cadastrar = findViewById(R.id.btnCadastrar);
     }
 }
