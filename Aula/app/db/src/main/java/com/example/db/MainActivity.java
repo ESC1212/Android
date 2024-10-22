@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase DB;
     EditText Nome, Data, Email;
     Button Cadastrar;
+    Button Clear;
     ListView list;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,18 @@ public class MainActivity extends AppCompatActivity {
         Email = findViewById(R.id.txtEmail);
         Data = findViewById(R.id.txtDataN);
         Cadastrar =findViewById(R.id.btnCadastrar);
-        list = findViewById(R.id.listV);
+        list = findViewById(R.id.listview);
+        Clear = findViewById(R.id.btnClear);
 
         DB = openOrCreateDatabase("banco",MODE_PRIVATE, null);
         DB.execSQL("CREATE TABLE if not exists pessoas (id  INTEGER PRIMARY KEY autoincrement,nome varchar, email varchar, dtnsc date)");
+
+        Clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Clear();
+            }
+        });
 
         Cadastrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -49,12 +58,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if(status>0){
                     Toast.makeText(MainActivity.this, "certo", Toast.LENGTH_SHORT).show();
+                    Clear();
                 } else{
                     Toast.makeText(MainActivity.this, "Erro", Toast.LENGTH_SHORT).show();
                 }
                 LoadData();
             }
         });
+        list.getOnItemClickListener();
+
+
+
         LoadData();
     }
 
@@ -69,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
         }
         ArrayAdapter<String> adap = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1,nomes);
         list.setAdapter(adap);
+    }
+    public void Clear(){
+        Nome = findViewById(R.id.txtNome);
+        Email = findViewById(R.id.txtEmail);
+        Data = findViewById(R.id.txtDataN);
+        Nome.setText(null);
+        Email.setText(null);
+        Data.setText(null);
     }
 
 }
