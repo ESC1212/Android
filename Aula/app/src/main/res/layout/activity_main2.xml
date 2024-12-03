@@ -11,6 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="IMC:"
+        app:layout_constraintBottom_toTopOf="@+id/Mensagen"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +29,7 @@
         app:layout_constraintVertical_bias="0.299" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/perfilPeso"
         android:layout_width="371dp"
         android:layout_height="315dp"
         android:layout_marginTop="52dp"
@@ -36,5 +38,6 @@
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Mensagen"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintVertical_bias="0.507"
+        tools:srcCompat="@drawable/ic_launcher_foreground" />
 </androidx.constraintlayout.widget.ConstraintLayout>
