@@ -13,7 +13,10 @@
         android:theme="@style/Theme.Rec"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
+            android:name=".Edit"
+            android:exported="false" />
+        <activity
+            android:name=".Cadastrar"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

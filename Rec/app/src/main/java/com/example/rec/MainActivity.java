@@ -1,18 +1,20 @@
 package com.example.rec;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -33,38 +35,65 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+//        chama o banco de dados
         DB dbHelper = DB.getInstance(this);
         banco = dbHelper.getWritableDatabase();
 
-        insertCarros();
-        showCarros();
+        listView = findViewById(R.id.listView);
+
+//      função pra preencher a tabela
+        preencherListView();
 
         cadastrar = findViewById(R.id.BtnCadastrar);
+//--------------------------------------------------------------------------------------------------Delete--------------------------------------------
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                pega o item da posição selcionada
+                String selected = (String) parent.getItemAtPosition(position);
+//                joga esse item para uma função de confirmação
+                showConfirmationDialog(selected);
+                return true;
+            }
+        });
+//        ------------------------------------------------------------------------------------------Update--------------------------------------------
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected = (String) parent.getItemAtPosition(position);
+                Intent i = new Intent(getApplicationContext(), Edit.class);
+//                faz um bundle com o modelo do carro para ser usado na proxima tela
+                i.putExtra("modelo",selected);
+                startActivity(i);
+            }
+        });
+//        ------------------------------------------------------------------------------------------Insert--------------------------------------------
         cadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),Cadastrar.class);
+                Intent i = new Intent(getApplicationContext(), Cadastrar.class);
                 startActivity(i);
             }
         });
     }
-    public void insereCarros() {
-        ContentValues contentValues = new ContentValues();
-        this.banco.insert("Carros",null,contentValues );
-    }
-    public void showCarros() {
-        Cursor cursor = banco.rawQuery("SELECT * FROM Carros", null);
 
+//    popula o list view com os dados
+//        ------------------------------------------------------------------------------------------Select--------------------------------------------
+    public void preencherListView() {
+        Cursor cursor = banco.rawQuery("SELECT * FROM Carros", null);
+//        array list do modelo dos carros
         ArrayList<String> Carros = new ArrayList<>();
+//        verifica se tem carros
         if (cursor.moveToFirst()) {
             do {
                 @SuppressLint("Range") String s = cursor.getString(cursor.getColumnIndex("modelo"));
                 Carros.add(s);
             } while (cursor.moveToNext());
         }
-
         cursor.close();
 
+//        bota os carros no listview
         ListView list = findViewById(R.id.listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getApplicationContext(),
@@ -73,25 +102,21 @@ public class MainActivity extends AppCompatActivity {
                 Carros);
         list.setAdapter(adapter);
     }
-    public void insertCarros() {
-        // Creating ContentValues object for the first car
-        ContentValues car1 = new ContentValues();
-        car1.put("modelo", "Model X");
-        car1.put("marca", "Tesla");
-        car1.put("Categoria", "SUV");
-        car1.put("Ano", 2021);
 
-        // Inserting the first car into the database
-        this.banco.insert("Carros", null, car1);
-
-        // Creating ContentValues object for the second car
-        ContentValues car2 = new ContentValues();
-        car2.put("modelo", "Civic");
-        car2.put("marca", "Honda");
-        car2.put("Categoria", "Sedan");
-        car2.put("Ano", 2019);
-
-        // Inserting the second car into the database
-        this.banco.insert("Carros", null, car2);
+//    ----------------------------------------------------------------------------------------------Delet(Continuação)---------------------------------
+    private void showConfirmationDialog(String selected) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Deletar") .setMessage("Você tem certeza que deseja deletar este carro?") .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                banco.delete("Carros","modelo = ?",new String[]{String.valueOf(selected)});
+                preencherListView();
+            }
+        }).setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
